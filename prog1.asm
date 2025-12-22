@@ -1,22 +1,12 @@
-  ;If the registers r1, r2 and r3 contain the values 0, 15 and 12 respectively,  
-  ;what will be the value in register r4 after execution of the following code  segment? 
-  ;Assume that the registers are 32-bits in size. 
-;MVN r0, r1 
-;AND r4, r0,r2 
-;EOR r4, r4, r3
+    AREA RESET, CODE, READONLY
+    ENTRY
 
-  AREA QUESTION1,CODE,READONLY
-START
-     MOV R1, #0      ; Load 0 into R1  
-     MOV R2, #15     ; Load 15 into R2  
-     MOV R3, #12     ; Load 12 into R3  
-     MVN R0, R1      ; Bitwise NOT of R1, store in R0  
-     AND R4, R0, R2  ; Bitwise AND of R0 and R2, store in R4  
-     EOR R4, R4, R3  ; Bitwise XOR of R4 and R3, store in R4  
-HERE B HERE      ; Infinite loop  
-    END             ; End of the program
+    MOV r1, #0       ; Load value 0 into r1
+    MOV r2, #15      ; Load value 15 into r2
+    MOV r3, #12      ; Load value 12 into r3
 
-		
-		
-		
-				
+    MVN r0, r1       ; Perform bitwise NOT on r1 and store in r0
+    AND r4, r0, r2   ; Perform bitwise AND between r0 and r2, store in r4
+    EOR r4, r4, r3   ; Perform bitwise XOR between r4 and r3, store in r4
+
+    END
