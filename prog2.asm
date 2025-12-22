@@ -1,20 +1,28 @@
-;2)Write an ARM assembly language program to generate first 10 Fibonacci  numbers. 
+    AREA RESET, CODE, READONLY
+    ENTRY
 
-  AREA QUESTION2, CODE, READONLY  
-START  
-      LDR R0,=0x40000000   ; Load base address (memory location) into R0  
-      MOV R1,#0           ; Initialize first Fibonacci number (F0 = 0)  
-      MOV R2,#1           ; Initialize second Fibonacci number (F1 = 1)  
-      MOV R5,#0x0A        ; Set loop counter to 10 (generate 10 Fibonacci numbers)  
-      STRB R1,[R0]        ; Store F0 at memory location  
-      STRB R2,[R0,#1]!    ; Store F1 at the next memory location  
+    MOV r0, #0            ; First Fibonacci number (Fib(0) = 0)
+    MOV r1, #1            ; Second Fibonacci number (Fib(1) = 1)
+    MOV r2, #10           ; Number of Fibonacci numbers to generate
+    MOV r3, #2            ; Counter starting from 2 (since Fib(0) and Fib(1) are already defined)
 
-LOOP  ADD R3,R2,R1        ; Compute next Fibonacci number: R3 = R2 + R1  
-      MOV R1,R2           ; Update R1 to hold the previous value of R2  
-      MOV R2,R3           ; Update R2 to hold the new Fibonacci number  
-      STRB R3,[R0,#1]!    ; Store the new Fibonacci number in memory  
-      SUB R5,#1           ; Decrement loop counter  
-      CMP R5,#0           ; Check if counter reaches zero  
-      BNE LOOP            ; If not zero, repeat loop  
-HERE  B HERE              ; Infinite loop (halt execution)  
-      END
+    LDR r4, =fib_array    ; Load address of memory location to store Fibonacci numbers
+    STR r0, [r4], #4      ; Store Fib(0) in memory
+    STR r1, [r4], #4      ; Store Fib(1) in memory
+
+loop
+    ADD r5, r0, r1        ; r5 = r0 + r1 (Next Fibonacci number)
+    STR r5, [r4], #4      ; Store the Fibonacci number in memory
+    MOV r0, r1            ; r0 = r1 (Shift r1 to r0)
+    MOV r1, r5            ; r1 = r5 (Update the next Fibonacci number)
+    ADD r3, r3, #1        ; Increment the counter
+    CMP r3, r2            ; Compare with 10
+    BLT loop              ; If counter < 10, repeat loop
+
+stop
+    B stop                ; Infinite loop to stop the program
+
+    AREA DATA, DATA, READWRITE
+fib_array  SPACE 40       ; Allocate space for 10 Fibonacci numbers (10 * 4 bytes = 40 bytes)
+
+    END
