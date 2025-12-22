@@ -1,26 +1,49 @@
- ;Write an Assembly language program to check whether the given number is  prime or not.
- AREA QUESTION4, CODE, READONLY
-START
-        MOV R0, #2     ; r0 will be contain the input value
-        MOV R1, #2       ; Start divisor
-        MOV R2, #1       ; Assume Prime (1 = Prime, 0 = Not Prime)
-CHECK  
-        CMP R1, R0       ; Compare divisor with number
-        BGE STOP         ; If divisor >= number, stop
-        MOV R3, R0       ; Copy number to R3
-        MOV R4, R3       ; Copy again for subtraction
-SUBTRACT  
-        SUB R4, R4, R1   ; Subtract divisor from number
-        CMP R4, #0       
-        BGE SUBTRACT     ; Keep subtracting if positive
+    AREA RESET, CODE, READONLY
+    ENTRY
 
-        CMP R4, #0       
-        MOVNE R2, #0     ; If remainder is not zero, move to next divisor
-        MOVEQ R2, #0     ; If remainder is zero, number is not prime
+    LDR r0, =num          ; Load address of the number to check
+    LDR r1, [r0]          ; Load the number into r1
+    MOV r2, #2            ; Start divisor from 2
+    MOV r3, #0            ; Initialize flag as 0 (Assume number is prime)
 
-        ADD R1, R1, #1   ; Increase divisor
-        CMP R1, R0       
-        BLT CHECK        ; Repeat checking until divisor reaches number
-STOP
-HERE B HERE
-        END
+    CMP r1, #2            ; Check if number is less than 2
+    BLT not_prime         ; If number < 2, it is not prime
+    BEQ prime             ; If number = 2, it is prime
+
+check_loop
+    ; Perform division using repeated subtraction
+    MOV r4, r1            ; Copy the number to r4 for division
+    MOV r5, #0            ; Quotient set to 0
+
+divide_loop
+    CMP r4, r2            ; Check if divisor <= number
+    BLT remainder_check   ; If divisor is greater, check remainder
+    SUB r4, r4, r2        ; Subtract divisor from number
+    ADD r5, r5, #1        ; Increment quotient
+    B divide_loop
+
+remainder_check
+    CMP r4, #0            ; Check if remainder is zero
+    BEQ not_prime         ; If remainder is 0, number is not prime
+
+    ADD r2, r2, #1        ; Increment divisor
+    MUL r7, r2, r2        ; Calculate divisor squared
+    CMP r7, r1            ; Check if divisor squared > number
+    BGT prime             ; If yes, number is prime
+    B check_loop
+
+not_prime
+    MOV r3, #0            ; r3 = 0 (Not Prime)
+    B end_program
+
+prime
+    MOV r3, #1            ; r3 = 1 (Prime)
+
+end_program
+    B end_program         ; Infinite loop to hold result
+
+    ; Data Section
+    AREA DATA, DATA, READWRITE
+num DCD 29                ; Change this number to test for primality
+
+    END
