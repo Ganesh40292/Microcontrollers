@@ -1,12 +1,29 @@
-;Write an ARM assembly language program that swaps the values of two  numbers 
-;without temporary register and swp instruction available in ARM.
- AREA QUESTION5, CODE, READONLY
-START
-        MOV r0, #5        ; Load first number (A = 5) into r0
-        MOV r1, #10       ; Load second number (B = 10) into r1
-                ; Swap r0 and r1 without using a temporary register
-        EOR r0, r0, r1    ; r0 = r0 ^ r1
-        EOR r1, r0, r1    ; r1 = r0 ^ r1 (now r1 holds original r0)
-        EOR r0, r0, r1    ; r0 = r0 ^ r1 (now r0 holds original r1)
-HERE B HERE
-        END
+    AREA RESET, CODE, READONLY
+    ENTRY
+
+    ; Load the numbers into registers
+    LDR r0, =num1         ; Load address of num1 into r0
+    LDR r1, =num2         ; Load address of num2 into r1
+    LDR r2, [r0]          ; Load num1 into r2
+    LDR r3, [r1]          ; Load num2 into r3
+
+    ; Perform swap using XOR (Without using temp register)
+    EOR r2, r2, r3        ; r2 = r2 XOR r3
+    EOR r3, r2, r3        ; r3 = r2 XOR r3 (num2 becomes num1)
+    EOR r2, r2, r3        ; r2 = r2 XOR r3 (num1 becomes num2)
+
+    ; Store swapped values back to memory
+    STR r2, [r0]          ; Store the swapped value of num1
+    STR r3, [r1]          ; Store the swapped value of num2
+
+stop
+    B stop                ; Infinite loop to stop the program
+
+    ; Data Section
+    AREA DATA, DATA, READWRITE
+num1
+    DCD 25                ; First number
+num2
+    DCD 40                ; Second number
+
+    END
