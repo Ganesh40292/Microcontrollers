@@ -1,24 +1,25 @@
-;Write an ARM assembly language program to calculate the sum of squares  of 5 numbers 
-;stored in a memory location.
+    AREA RESET, CODE, READONLY
+    ENTRY
 
- AREA QUESTION3, CODE, READONLY
-START
-        MOV R0, #1      ; First number
-        MOV R1, #2      ; Second number
-        MOV R2, #3      ; Third number
-        MOV R3, #4      ; Fourth number
-        MOV R4, #5      ; Fifth number
-        MOV R5, #0      ; Initialize sum
-        MUL R6, R0, R0  ; Square 1
-        ADD R5, R5, R6  ; Add to sum
-        MUL R6, R1, R1  ; Square 2
-        ADD R5, R5, R6  ; Add to sum
-        MUL R6, R2, R2  ; Square 3
-        ADD R5, R5, R6  ; Add to sum
-        MUL R6, R3, R3  ; Square 4
-        ADD R5, R5, R6  ; Add to sum
-        MUL R6, R4, R4  ; Square 5
-        ADD R5, R5, R6  ; Add to sum
-		        ; R5 now contains the sum of squares
-HERE B HERE
-        END
+    ; Initialize registers
+    LDR r0, =numbers        ; Load address of numbers into r0
+    LDR r1, =5              ; Number of elements
+    MOV r2, #0              ; r2 will store the sum of squares
+
+loop
+    LDR r3, [r0], #4        ; Load the current number into r3 and increment address by 4
+    MUL r4, r3, r3          ; r4 = r3 * r3 (Calculate square)
+    ADD r2, r2, r4          ; r2 = r2 + r4 (Add square to sum)
+    SUBS r1, r1, #1         ; Decrement the counter
+    BNE loop                ; If not zero, repeat loop
+
+    ; Sum of squares is now in r2
+stop
+    B stop                  ; Infinite loop to stop the program
+
+    ; Data Section
+    AREA DATA, DATA, READWRITE
+numbers
+    DCD 2, 3, 4, 5, 6       ; Example 5 numbers stored in memory (2² + 3² + 4² + 5² + 6² = 90)
+
+    END
