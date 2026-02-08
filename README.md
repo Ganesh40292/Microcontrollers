@@ -5,7 +5,6 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Build](https://img.shields.io/badge/Build-Passing-success)
 ![Platform](https://img.shields.io/badge/Platform-8051%20/%20AVR%20/%20PIC-lightgrey)
-![License](https://img.shields.io/badge/License-MIT-blue)
 ![Maintained](https://img.shields.io/badge/Maintained-Yes-green)
 ![Made With Love](https://img.shields.io/badge/Made%20With-❤-red)
 
@@ -99,11 +98,6 @@ Feel free to open a **Pull Request** or raise an **Issue**.
 
 ---
 
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
----
 
 ### ⭐ If you like this repository, don’t forget to give it a star!
 
