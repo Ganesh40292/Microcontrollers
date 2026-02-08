@@ -4,7 +4,6 @@
 ![Microcontrollers](https://img.shields.io/badge/Domain-Microcontrollers-blue)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Build](https://img.shields.io/badge/Build-Passing-success)
-![Platform](https://img.shields.io/badge/Platform-8051%20/%20AVR%20/%20PIC-lightgrey)
 ![Maintained](https://img.shields.io/badge/Maintained-Yes-green)
 ![Made With Love](https://img.shields.io/badge/Made%20With-❤-red)
 
